@@ -1,10 +1,11 @@
 require("dotenv").config();
 require("./config/database").connect();
+
 const express = require("express");
 const User = require("./model/user");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-
+const auth = require("./middleware/auth");
 const app = express();
 
 app.use(express.json());
@@ -69,4 +70,7 @@ app.post("/login", async (req, res) => {
     } catch (err) {
         console.log(err);
     }
+});
+app.post("/welcome", auth, (req, res) => {
+    res.status(200).send("Hello world");
 });
