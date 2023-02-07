@@ -3,6 +3,7 @@ require("./config/database").connect();
 
 const express = require("express");
 const User = require("./model/user");
+const Result = require("./model/result");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const auth = require("./middleware/auth");
@@ -13,7 +14,7 @@ app.use(express.json());
 
 module.exports = app;
 
-app.post("/register", cors(),async (req, res) => {
+app.post("/register", cors(), async (req, res) => {
     let encryptedPassword;
     try {
         const {first_name, last_name, email, password} = req.body;
@@ -42,12 +43,12 @@ app.post("/register", cors(),async (req, res) => {
 
 app.post("/login", cors(), async (req, res) => {
     try {
-        const { email, password } = req.body;
+        const {email, password} = req.body;
         if (!(email && password)) {
             return res.status(409).send({'error': 'error.allFieldRequired'});
         }
 
-        const user = await User.findOne({ email });
+        const user = await User.findOne({email});
 
         if (user && (await bcrypt.compare(password, user.password))) {
             const responseUser = {
@@ -60,20 +61,61 @@ app.post("/login", cors(), async (req, res) => {
                 {user_id: user._id, email},
                 process.env.TOKEN_KEY,
                 {
-                    expiresIn: parseInt(process.env.TOKEN_EXPIRE)+"h",
+                    expiresIn: parseInt(process.env.TOKEN_EXPIRE) + "h",
                 }
             );
             responseUser.expire = process.env.TOKEN_EXPIRE
             res.status(200).json(responseUser);
-        } else{
+        } else {
             return res.status(403).send({'error': 'error.invalidCredential'});
         }
     } catch (err) {
         console.log(err);
     }
 });
-app.post("/userData", cors(), auth, async (req, res) => {
+
+app.get("/userData", cors(), auth, async (req, res) => {
     const email = req.user.email
-    const user = await User.findOne({ email });
-    res.status(200).send({'message': `Welcome to your account ${user.first_name} ${user.last_name}`});
+    const user = await User.findOne({ email })
+    const usersStats = await Result.find({ email })
+
+    const output = usersStats.map(result => {
+        let copyOfResult = JSON.stringify(result)
+        let tmp = JSON.parse(copyOfResult)
+        tmp.fullName = `${user.first_name} ${user.last_name}`
+        return tmp
+    })
+
+    res.status(200).send(JSON.stringify(output));
+});
+
+app.post("/saveUserResult", cors(), auth, async (req, res) => {
+    const email = req.user.email
+    const user = await User.findOne({email});
+
+    if (!user) {
+        return res.status(409).send({'error': 'error.userNotFound'});
+    }
+
+    try {
+        const {result_time, correct_input, incorrect_input, percent, text, timer, timer_percent} = req.body;
+
+        if (!(result_time && correct_input && incorrect_input && percent && text)) {
+            return res.status(409).send({'error': 'error.allFieldRequired'});
+        }
+
+        await Result.create({
+            email: user.email,
+            result_time,
+            correct_input,
+            incorrect_input,
+            percent,
+            text,
+            timer,
+            timer_percent
+        });
+        res.status(200).send({'message': `saved`});
+    } catch (err) {
+        console.log(err);
+    }
 });
