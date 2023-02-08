@@ -114,8 +114,35 @@ app.post("/saveUserResult", cors(), auth, async (req, res) => {
             timer,
             timer_percent
         });
-        res.status(200).send({'message': `saved`});
+        return res.status(200).send({'message': `saved`});
     } catch (err) {
         console.log(err);
     }
+});
+
+app.get("/getLeaders", cors(), async (req, res) => {
+    const usersList = await User.find()
+
+    if (!usersList) {
+        return res.status(409).send({'error': 'error.noData'});
+    }
+
+    const promise = await usersList.map(async (user) => {
+        const usersResults = await Result.find({ email: user.email })
+        return usersResults.map((result) => {
+            let copyOfResult = JSON.stringify(result)
+            let tmp = JSON.parse(copyOfResult)
+            tmp.fullName = `${user.first_name} ${user.last_name}`
+            return tmp;
+        })
+    })
+
+    const out = []
+    promise.forEach(promise => {
+      promise.then(data => {
+          out.push(data)
+      })
+    })
+
+    await res.status(200).send(JSON.stringify(out));
 });
