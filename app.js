@@ -104,6 +104,15 @@ app.post("/saveUserResult", cors(), auth, async (req, res) => {
             return res.status(409).send({'error': 'error.allFieldRequired'});
         }
 
+        const date = new Date();
+        const dateStr =
+            ("00" + date.getDate()).slice(-2)+ "." +
+            ("00" + (date.getMonth() + 1)).slice(-2) + "." +
+            date.getFullYear() + " " +
+            ("00" + date.getHours()).slice(-2) + ":" +
+            ("00" + date.getMinutes()).slice(-2) + ":" +
+            ("00" + date.getSeconds()).slice(-2);
+
         await Result.create({
             email: user.email,
             result_time,
@@ -112,7 +121,8 @@ app.post("/saveUserResult", cors(), auth, async (req, res) => {
             percent,
             text,
             timer,
-            timer_percent
+            timer_percent,
+            date: dateStr
         });
         return res.status(200).send({'message': `saved`});
     } catch (err) {

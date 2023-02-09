@@ -9,6 +9,7 @@ const resultSchema = new mongoose.Schema({
     text: { type: String },
     timer: { type: Number, default: null },
     timer_percent: { type: Number, default: null },
+    date: { type: String }
 });
 
 module.exports = mongoose.model("result", resultSchema);

@@ -179,7 +179,8 @@ Get all stats about user's games.
               "text":"string",
               "timer":"number",
               "timer_percent":"number",
-              "fullName":"string"
+              "fullName":"string",
+              "date": "string"
             },
             {
               "..." : "..."
@@ -330,7 +331,8 @@ Get result all saved games of users from db
               "text":"string",
               "timer":"number",
               "timer_percent":"number",
-              "full_name":"string"
+              "full_name":"string",
+              "date": "string"
             },
             {
               "..." : "..."
