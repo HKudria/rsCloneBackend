@@ -133,16 +133,12 @@ app.get("/getLeaders", cors(), async (req, res) => {
             let copyOfResult = JSON.stringify(result)
             let tmp = JSON.parse(copyOfResult)
             tmp.fullName = `${user.first_name} ${user.last_name}`
+            delete tmp.__v;
             return tmp;
         })
     })
 
-    const out = []
-    promise.forEach(promise => {
-      promise.then(data => {
-          out.push(data)
-      })
-    })
+    const output = await Promise.all(promise)
 
-    await res.status(200).send(JSON.stringify(out));
+    await res.status(200).send(JSON.stringify(output.flat()));
 });
