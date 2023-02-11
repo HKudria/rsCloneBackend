@@ -20,13 +20,13 @@ app.post("/register", cors(), async (req, res) => {
         const {first_name, last_name, email, password} = req.body;
 
         if (!(email && password && first_name && last_name)) {
-            return res.status(409).send({'error': 'error.allFieldRequired'});
+            return res.status(409).send({'error': 'errors.allFieldRequired'});
         }
 
         const oldUser = await User.findOne({email});
 
         if (oldUser) {
-            return res.status(409).send({'error': 'error.userExist'});
+            return res.status(409).send({'error': 'errors.userExist'});
         }
         encryptedPassword = await bcrypt.hash(password, 10);
         await User.create({
@@ -45,7 +45,7 @@ app.post("/login", cors(), async (req, res) => {
     try {
         const {email, password} = req.body;
         if (!(email && password)) {
-            return res.status(409).send({'error': 'error.allFieldRequired'});
+            return res.status(409).send({'error': 'errors.allFieldRequired'});
         }
 
         const user = await User.findOne({email});
@@ -67,7 +67,7 @@ app.post("/login", cors(), async (req, res) => {
             responseUser.expire = process.env.TOKEN_EXPIRE
             res.status(200).json(responseUser);
         } else {
-            return res.status(403).send({'error': 'error.invalidCredential'});
+            return res.status(403).send({'error': 'errors.invalidCredential'});
         }
     } catch (err) {
         console.log(err);
@@ -94,14 +94,14 @@ app.post("/saveUserResult", cors(), auth, async (req, res) => {
     const user = await User.findOne({email});
 
     if (!user) {
-        return res.status(409).send({'error': 'error.userNotFound'});
+        return res.status(409).send({'error': 'errors.userNotFound'});
     }
 
     try {
         const {startTime, endTime, length, errorChar, correctChar, currIndex, text, time} = req.body;
 
         if (!(text)) {
-            return res.status(409).send({'error': 'error.allFieldRequired'});
+            return res.status(409).send({'error': 'errors.allFieldRequired'});
         }
 
         const date = new Date();
@@ -135,7 +135,7 @@ app.get("/getLeaders", cors(), async (req, res) => {
     const usersList = await User.find()
 
     if (!usersList) {
-        return res.status(409).send({'error': 'error.noData'});
+        return res.status(409).send({'error': 'errors.noData'});
     }
 
     const promise = await usersList.map(async (user) => {

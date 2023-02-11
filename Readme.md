@@ -63,7 +63,7 @@ Register new user.
       **Content:**
        ```json
            {
-              "error": "error.allFieldRequired"
+              "error": "errors.allFieldRequired"
            }
        ```
       **Description:**  Not all field was sent  
@@ -72,7 +72,7 @@ Register new user.
       **Content:**
         ```json
          {
-           "error": "error.userExist"
+           "error": "errors.userExist"
          }
        ```
       **Description:** User with sent email is exit
@@ -126,7 +126,7 @@ Login into system.
       **Content:**
        ```json
            {
-              "error": "error.allFieldRequired"
+              "error": "errors.allFieldRequired"
            }
        ```
       **Description:**  Not all field was sent
@@ -135,7 +135,7 @@ Login into system.
       **Content:**
         ```json
          {
-           "error": "error.invalidCredential"
+           "error": "errors.invalidCredential"
          }
        ```
       **Description:** Token incorrect
@@ -196,7 +196,7 @@ Get all stats about user's games.
       **Content:**
        ```json
            {
-              "error": "error.empty"
+              "error": "errors.empty"
            }
        ```
       **Description:**  Token wasn't sent
@@ -205,7 +205,7 @@ Get all stats about user's games.
       **Content:**
         ```json
          {
-           "error": "error.invalidCredential"
+           "error": "errors.invalidCredential"
          }
        ```
       **Description:** Token incorrect
@@ -261,7 +261,7 @@ After finish game save game stats.
       **Content:**
        ```json
            {
-              "error": "error.empty"
+              "error": "errors.empty"
            }
        ```
       **Description:**  Token wasn't sent
@@ -270,7 +270,7 @@ After finish game save game stats.
       **Content:**
         ```json
          {
-           "error": "error.invalidCredential"
+           "error": "errors.invalidCredential"
          }
        ```
       **Description:** Token incorrect
@@ -279,7 +279,7 @@ After finish game save game stats.
       **Content:**
         ```json
          {
-            "error": "error.allFieldRequired"
+            "error": "errors.allFieldRequired"
          }
       ```
       **Description:**  Not all field was sent
@@ -288,7 +288,7 @@ After finish game save game stats.
       **Content:**
         ```json
          {
-           "error": "error.userNotFound"
+           "error": "errors.userNotFound"
          }
        ```
       **Description:** User with this email and token not found
@@ -348,7 +348,7 @@ Get result all saved games of users from db
       **Content:**
         ```json
          {
-           "error": "error.noData"
+           "error": "errors.noData"
          }
        ```
       **Description:** No saved games in DB
