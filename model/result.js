@@ -1,14 +1,15 @@
 const mongoose = require("mongoose");
 
 const resultSchema = new mongoose.Schema({
-    email: { type: String, unique: true },
-    result_time: { type: Number, default: null },
-    correct_input: { type: Number },
-    incorrect_input: { type: Number },
-    percent: { type: Number },
+    email: { type: String},
+    startTime: { type: Number, default: null },
+    endTime: { type: Number, default: null },
+    length: { type: Number },
+    errorChar: { type: Number },
+    correctChar: { type: Number },
     text: { type: String },
-    timer: { type: Number, default: null },
-    timer_percent: { type: Number, default: null },
+    currIndex: { type: Number },
+    time: { type: Number, default: null },
     date: { type: String }
 });
 

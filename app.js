@@ -98,9 +98,9 @@ app.post("/saveUserResult", cors(), auth, async (req, res) => {
     }
 
     try {
-        const {result_time, correct_input, incorrect_input, percent, text, timer, timer_percent} = req.body;
+        const {startTime, endTime, length, errorChar, correctChar, currIndex, text, time} = req.body;
 
-        if (!(result_time && correct_input && incorrect_input && percent && text)) {
+        if (!(text)) {
             return res.status(409).send({'error': 'error.allFieldRequired'});
         }
 
@@ -115,13 +115,14 @@ app.post("/saveUserResult", cors(), auth, async (req, res) => {
 
         await Result.create({
             email: user.email,
-            result_time,
-            correct_input,
-            incorrect_input,
-            percent,
+            startTime,
+            endTime,
+            length,
+            errorChar,
+            correctChar,
+            currIndex,
             text,
-            timer,
-            timer_percent,
+            time,
             date: dateStr
         });
         return res.status(200).send({'message': `saved`});

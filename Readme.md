@@ -170,15 +170,17 @@ Get all stats about user's games.
       **Content:**
       ```json
         [
-            { "_id":"string",
+            { 
+              "_id":"string",
               "email":"string",
-              "result_time":"number",
-              "correct_input":"number",
-              "incorrect_input":"number",
-              "percent":"number",
+              "startTime":"number",
+              "endTime":"number",
+              "length":"number",
+              "errorChar":"number",
+              "correctChar":"number",
               "text":"string",
-              "timer":"number",
-              "timer_percent":"number",
+              "currIndex":"number",
+              "time":"number",
               "fullName":"string",
               "date": "string"
             },
@@ -232,14 +234,14 @@ After finish game save game stats.
 
     ```json
         {          
-              "email":"string",
-              "result_time":"number",
-              "correct_input":"number",
-              "incorrect_input":"number",
-              "percent":"number",
+              "startTime":"number",
+              "endTime":"number",
+              "length":"number",
+              "errorChar":"number",
+              "correctChar":"number",
               "text":"string",
-              "timer":"number",
-              "timer_percent":"number"
+              "currIndex":"number",
+              "time":"number"
         }
    ```
 
