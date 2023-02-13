@@ -76,8 +76,8 @@ app.post("/login", cors(), async (req, res) => {
 
 app.get("/userData", cors(), auth, async (req, res) => {
     const email = req.user.email
-    const user = await User.findOne({ email })
-    const usersStats = await Result.find({ email })
+    const user = await User.findOne({email})
+    const usersStats = await Result.find({email})
 
     const output = usersStats.map(result => {
         let copyOfResult = JSON.stringify(result)
@@ -98,15 +98,15 @@ app.post("/saveUserResult", cors(), auth, async (req, res) => {
     }
 
     try {
-        const {startTime, endTime, length, errorChar, correctChar, currIndex, text, time} = req.body;
+        const {startTime, endTime, length, errorChar, correctChar, currIndex, text, time, percent} = req.body;
 
-        if (!(text)) {
+        if (!text) {
             return res.status(409).send({'error': 'errors.allFieldRequired'});
         }
 
         const date = new Date();
         const dateStr =
-            ("00" + date.getDate()).slice(-2)+ "." +
+            ("00" + date.getDate()).slice(-2) + "." +
             ("00" + (date.getMonth() + 1)).slice(-2) + "." +
             date.getFullYear() + " " +
             ("00" + date.getHours()).slice(-2) + ":" +
@@ -123,6 +123,7 @@ app.post("/saveUserResult", cors(), auth, async (req, res) => {
             currIndex,
             text,
             time,
+            percent,
             date: dateStr
         });
         return res.status(200).send({'message': `saved`});
@@ -139,7 +140,7 @@ app.get("/getLeaders", cors(), async (req, res) => {
     }
 
     const promise = await usersList.map(async (user) => {
-        const usersResults = await Result.find({ email: user.email })
+        const usersResults = await Result.find({email: user.email})
         return usersResults.map((result) => {
             let copyOfResult = JSON.stringify(result)
             let tmp = JSON.parse(copyOfResult)
@@ -153,3 +154,15 @@ app.get("/getLeaders", cors(), async (req, res) => {
 
     await res.status(200).send(JSON.stringify(output.flat()));
 });
+
+app.get("/updatePercent", cors(), async (req, res) => {
+    const usersResults = await Result.find()
+    usersResults.map((result) => {
+        result.percent = Math.trunc((result.correctChar / result.text.length) * 100)
+        result.save()
+    })
+
+    await res.status(200).send(JSON.stringify('ok'));
+});
+
+

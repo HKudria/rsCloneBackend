@@ -9,6 +9,7 @@ const resultSchema = new mongoose.Schema({
     correctChar: { type: Number },
     text: { type: String },
     currIndex: { type: Number },
+    percent: { type: Number },
     time: { type: Number, default: null },
     date: { type: String }
 });

@@ -182,7 +182,8 @@ Get all stats about user's games.
               "currIndex":"number",
               "time":"number",
               "fullName":"string",
-              "date": "string"
+              "date": "string",
+              "percent": "number"
             },
             {
               "..." : "..."
@@ -241,7 +242,8 @@ After finish game save game stats.
               "correctChar":"number",
               "text":"string",
               "currIndex":"number",
-              "time":"number"
+              "time":"number",
+              "percent": "number"
         }
    ```
 
@@ -329,12 +331,12 @@ Get result all saved games of users from db
               "result_time":"number",
               "correct_input":"number",
               "incorrect_input":"number",
-              "percent":"number",
               "text":"string",
               "timer":"number",
               "timer_percent":"number",
               "full_name":"string",
-              "date": "string"
+              "date": "string",
+              "percent": "number"
             },
             {
               "..." : "..."
