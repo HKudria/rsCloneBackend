@@ -15,7 +15,7 @@ Api for RsClone final task "MonkeyType".
 
 - Set variable from .env
 - Change port from 4001 to 80
-- Also, you can usage it deploys on server. Actual link `https://rsclonebackend-production.up.railway.app`
+- Also, you can usage it deploys on server. Actual link `https://rscloneback.onrender.com`
 
 ## Usage
 
